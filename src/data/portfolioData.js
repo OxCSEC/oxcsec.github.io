@@ -33,9 +33,6 @@ export const portfolioData = {
     { id: 'overview', label: 'Overview', command: 'neofetch --operator' },
     { id: 'experience', label: 'Experience', command: './career --timeline --compact' },
     { id: 'projects', label: 'Projects', command: 'ls ./projects --security-focus' },
-    { id: 'skills', label: 'Skills', command: './enum --capabilities' },
-    { id: 'tools', label: 'Tools', command: './env --toolchain' },
-    { id: 'certifications', label: 'Certifications', command: './credcheck --list' },
     { id: 'contact', label: 'Contact', command: './connect --safe-links' },
   ],
   experience: [

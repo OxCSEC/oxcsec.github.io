@@ -1,8 +1,14 @@
 function renderList(items, options = {}) {
-  const { linked = false, showTitle = false, dense = false, showMeta = false } = options;
+  const {
+    linked = false,
+    showTitle = false,
+    dense = false,
+    showMeta = false,
+    singleColumn = false,
+  } = options;
 
   return (
-    <div className="grid gap-3 lg:grid-cols-2">
+    <div className={singleColumn ? 'grid gap-3' : 'grid gap-3 lg:grid-cols-2'}>
       {items.map((item) => {
         const Wrapper = linked && item.href ? 'a' : 'div';
         const wrapperProps =
@@ -57,6 +63,15 @@ function renderCommandLines(values) {
   );
 }
 
+function PanelBlock({ title, children }) {
+  return (
+    <div className="rounded-2xl border border-terminal-line bg-black/20 p-4">
+      <div className="mb-3 text-terminal-accent">{title}</div>
+      {children}
+    </div>
+  );
+}
+
 export function TabPanel({ tab, data }) {
   const heading = (
     <div className="mb-5 flex flex-wrap items-center gap-3 border-b border-terminal-line pb-4 text-xs uppercase tracking-[0.28em] text-terminal-muted">
@@ -77,7 +92,22 @@ export function TabPanel({ tab, data }) {
       return (
         <div className="h-full animate-reveal">
           {heading}
-          {renderList(data.experience, { showTitle: true })}
+          <div className="space-y-4">
+            <PanelBlock title="Career Timeline">
+              {renderList(data.experience, { showTitle: true })}
+            </PanelBlock>
+            <div className="grid gap-4 xl:grid-cols-3">
+              <PanelBlock title="Certifications">
+                {renderList(data.certifications, { dense: true, singleColumn: true })}
+              </PanelBlock>
+              <PanelBlock title="Skills">
+                {renderList(data.skills, { dense: true, singleColumn: true })}
+              </PanelBlock>
+              <PanelBlock title="Tools">
+                {renderList(data.tools, { dense: true, singleColumn: true })}
+              </PanelBlock>
+            </div>
+          </div>
         </div>
       );
     case 'projects':
@@ -85,27 +115,6 @@ export function TabPanel({ tab, data }) {
         <div className="h-full animate-reveal">
           {heading}
           {renderList(data.projects, { dense: true, showMeta: true })}
-        </div>
-      );
-    case 'skills':
-      return (
-        <div className="h-full animate-reveal">
-          {heading}
-          {renderList(data.skills, { dense: true })}
-        </div>
-      );
-    case 'tools':
-      return (
-        <div className="h-full animate-reveal">
-          {heading}
-          {renderList(data.tools, { dense: true })}
-        </div>
-      );
-    case 'certifications':
-      return (
-        <div className="h-full animate-reveal">
-          {heading}
-          {renderList(data.certifications, { dense: true })}
         </div>
       );
     case 'contact':
